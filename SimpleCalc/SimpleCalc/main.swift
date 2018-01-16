@@ -43,12 +43,19 @@ public class Calculator {
                 case .fact :
                     var sum = 1;
                     let firstNum = Int(args[0])!
-                    for i in 1...firstNum  {
-                        sum = sum * i
+                    if firstNum > 0 {
+                        for i in 1...firstNum  {
+                            sum = sum * i
+                        }
+                    } else {
+                        let negFirstNum = firstNum * -1
+                        for i in 1...negFirstNum  {
+                            sum = sum * i * -1
+                        }
                     }
                     return sum
                 case .blank:
-                    print("Could not calculate that input.")
+                    print("Could not calculate that input. Failed with complex operation.")
                     return -1
             }
         } else if intSecondElement == nil {
@@ -82,12 +89,14 @@ public class Calculator {
             case .substract: return firstNum - secondNum
             case .divide: return firstNum / secondNum
             case .mod:
-                let goesIntoThisManyTimes = firstNum / secondNum
-                let sumOf = goesIntoThisManyTimes * secondNum
-                return firstNum - sumOf
+                if (firstNum > 0 && secondNum < 0) || (firstNum < 0 && secondNum < 0) {
+                    return -1 * (firstNum % secondNum)
+                } else {
+                   return firstNum % secondNum
+                }
             case .multiply: return firstNum * secondNum
             case .blank:
-                print("Could not calculate that input.")
+                print("Could not calculate that input. Failed with simple operation.")
                 return -1
             }
         }
